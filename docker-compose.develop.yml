@@ -1,0 +1,6 @@
+version: '3.3'
+services:
+
+  front-task:
+    environment:
+      - REACT_APP_API_URL=http://172.30.1.34:8000

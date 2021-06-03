@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <springProperty name="appName"       source="spring.application.name"  defaultValue="svc-no-name" />
+    <springProperty name="logBaseDir"    source="app.log-base-path"        defaultValue="${user.home}/logs" />
+
+    <property name="CONSOLE_LOG_PATTERN" value="%d{HH:mm:ss} %clr(%-5p) %clr([%-40.40C{39}.%-20.-20M:%4L]){blue} %m%n%wEx" />
+    <property name="FILE_LOG_PATTERN"    value="%d{HH:mm:ss.SSS} %-5p [%t] %-40.40C{39}:%4L - %m%n%wEx" />
+
+    <property name="BASIC_FILE"          value="${logBaseDir}/${appName}/basic-${appName}.log" />
+    <property name="ERROR_FILE"          value="${logBaseDir}/${appName}/error-${appName}.log" />
+
+    <property name="BASIC_ROLLING_FILE"  value="${logBaseDir}/${appName}/%d{yyyyMMdd}-basic-%i-${appName}.log" />
+    <property name="ERROR_ROLLING_FILE"  value="${logBaseDir}/${appName}/%d{yyyyMMdd}-error-%i-${appName}.log" />
+
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+
+    <appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender" >
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="BASIC_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender" >
+        <file>${BASIC_FILE}</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder" >
+            <charset>UTF-8</charset>
+            <Pattern>${FILE_LOG_PATTERN}</Pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy" >
+            <fileNamePattern>${BASIC_ROLLING_FILE}</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="ERROR_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender" >
+        <file>${ERROR_FILE}</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder" >
+            <charset>UTF-8</charset>
+            <Pattern>${FILE_LOG_PATTERN}</Pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy" >
+            <fileNamePattern>${ERROR_ROLLING_FILE}</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter" >
+            <level>WARN</level>
+        </filter>
+    </appender>
+
+    <!-- LOG_LEVEL : ERROR → WARN → INFO → DEBUG → TRACE -->
+
+    <springProfile name="local" >
+        <root level="ERROR" >
+            <appender-ref ref="CONSOLE_APPENDER" />
+            <appender-ref ref="BASIC_APPENDER"   />
+            <appender-ref ref="ERROR_APPENDER" />
+        </root>
+    </springProfile>
+    <springProfile name="develop" >
+        <root level="INFO" >
+            <appender-ref ref="CONSOLE_APPENDER" />
+        </root>
+        <logger name="wmkang" level="DEBUG" />
+    </springProfile>
+    <springProfile name="release" >
+        <root level="INFO" >
+            <appender-ref ref="CONSOLE_APPENDER" />
+        </root>
+    </springProfile>
+
+</configuration>

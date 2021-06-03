@@ -1,0 +1,27 @@
+
+app:
+  task:
+    database:
+      import-path: ./h2/import
+      export-path: ./h2/export
+      export-file: ${app.task.database.export-path}/TASK_DUMP_
+      drop-query: DROP ALL OBJECTS
+
+---
+spring:
+  profiles: test
+
+
+---
+spring:
+  profiles: local
+
+
+---
+spring:
+  profiles: develop
+
+
+---
+spring:
+  profiles: release

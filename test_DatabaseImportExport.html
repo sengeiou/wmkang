@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>데이터베이스 익스포트/임포트 테스트</title>
+    </head>
+<body>
+
+	<h1>1. 데이터베이스 익스포트(백업)</h1>
+	데이터베이스 익스포트를 하려면, 아래 링크를 클릭해 주세요!<br><br>
+
+    <ul>
+	   <li>로그인 계정 : wmkang@wmkang.com/abc123!@#
+	</ul><br>
+
+	<a href="http://localhost:8001/task/database/export">http://localhost:8001/task/database/export</a><br><br><br>
+
+	<hr>
+	<h1>2. 데이터베이스 임포트(복원)</h1>
+	데이터베이스 임포트를 하려면, 익스포트 받았던 파일을 첨부하여 업로드해 주세요!<br>
+	<font color="gray">(보다 정확히 확인하시려면, 익스포트 후 타스크 추가/삭제 하신 후, 임포트해 보시기 바랍니다)</font><br><br>
+
+    <form action="http://localhost:8001/task/database/import" method="post" enctype="multipart/form-data">
+        <input type="file" id="file" name="file"><br>
+        <input type="submit">
+    </form>
+
+</body>
+</html>

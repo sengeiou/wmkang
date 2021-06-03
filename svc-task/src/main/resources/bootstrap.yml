@@ -1,0 +1,27 @@
+
+info:
+  app:
+    name: '@project.artifactId@'
+    description: '@project.description@'
+    version: '@project.version@'
+
+server:
+  servlet:
+    context-path: ${app.path.@project.artifactId@}
+  port: ${app.port.@project.artifactId@}
+
+spring:
+  application:
+    name: '@project.artifactId@'
+  profiles:
+    active: '@profile@'
+  cloud:
+    config:
+      uri: '@spring.cloud.config.uri@'
+      label: '@label@'
+
+logging:
+  config: '@spring.cloud.config.uri@/@project.artifactId@/@profile@/@label@/log/@project.artifactId@-logback.xml'
+
+# Spring  설정 조회 : http://localhost:9001/svc-task/local/master
+# Logging 설정 조회 : http://localhost:9001/svc-task/local/master/log/svc-task-logback.xml

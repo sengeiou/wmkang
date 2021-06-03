@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>파일 업로드/다운로드 테스트</title>
+    </head>
+<body>
+
+	<h1>파일 업로드/다운로드 테스트</h1>
+	<br>
+
+    <form action="http://localhost:8001/task/test/file/upload" method="post" enctype="multipart/form-data">
+
+        <input type="hidden" id="shard" name="shard" value="1">
+
+        파라미터1 : <input type="text" id="bizParam1" name="bizParam1"><br>
+        파라미터2 : <input type="text" id="bizParam2" name="bizParam2"><br>
+        파라미터3 : <input type="text" id="bizParam3" name="bizParam3"><br>
+
+        업로드 파일1 : <input type="file" id="attachFiles" name="attachFiles"><br>
+        업로드 파일2 : <input type="file" id="attachFiles" name="attachFiles"><br>
+        업로드 파일3 : <input type="file" id="attachFiles" name="attachFiles"><br>
+
+        <input type="submit">
+    </form>
+
+</body>
+</html>
+

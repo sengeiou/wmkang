@@ -1,0 +1,51 @@
+
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: svc-task
+        uri: lb://SVC-TASK
+        predicates:
+        - Path=/task/**
+      - id: openapi
+        uri: http://localhost:${server.port}
+        predicates:
+        - Path=/v3/api-docs/**
+        filters:
+        - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allow-credentials: true 
+            allowedHeaders:
+              - x-requested-with
+              - authorization
+              - content-type
+              - credential
+              - X-AUTH-TOKEN
+              - X-CSRF-TOKEN            
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+
+---
+spring:
+  profiles: test
+
+---
+spring:
+  profiles: local
+
+
+---
+spring:
+  profiles: develop
+
+
+---
+spring:
+  profiles: release

@@ -1,0 +1,26 @@
+  eureka:
+  server:
+    enable-self-preservation: true
+    response-cache-update-interval-ms: 3000   
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+
+---
+spring:
+  profiles: test
+
+
+---
+spring:
+  profiles: local
+
+
+---
+spring:
+  profiles: develop
+
+
+---
+spring:
+  profiles: release

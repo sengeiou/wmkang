@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    hikari:
+      username: sa
+      password:
+      manage:
+        jdbc-url: jdbc:h2:file:./h2/manage-test
+      service-1:
+        jdbc-url: jdbc:h2:file:./h2/service1-test
+      service-2:
+        jdbc-url: jdbc:h2:file:./h2/service2-test
+  redis:
+    host: localhost
+    port: 6379
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: create
+
+app:
+  log-base-path: ${user.home}/wmkang/logs
+  file:
+    upload:
+      base-path: ${user.home}/wmkang/storage/upload
+  audit:
+    enable: false
+  debug:
+    api:
+      expose-error-message: true
+    log:
+      beans:
+        switch: OFF
+        type: OBJECT
+      classpath: OFF
+      parameters:
+        http: OFF
+        controller: OFF

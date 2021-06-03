@@ -1,0 +1,165 @@
+
+spring:
+  mvc:
+    format:
+      date: yyyy.MM.dd
+      time: HH:mm:ss
+      date-time: ${spring.mvc.format.date} ${spring.mvc.format.time}
+  messages:
+    basename: messages.common, messages.service
+    encoding: UTF-8
+    cache-duration: 10
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB       # -1(무제한)
+      max-request-size: 100MB
+  jackson:
+    time-zone: Asia/Seoul
+    date-format: ${spring.mvc.format.date-time}
+  cache:
+    type: redis
+  session:
+    timeout: 1200       # 20M
+    store-type: redis   # @EnableRedisHttpSession
+    redis:
+      flush-mode: on-save
+      namespace: session
+  jpa:
+    open-in-view: false
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        default_batch_fetch_size: 5
+        dialect: org.hibernate.dialect.H2Dialect
+        show_sql: true
+        format_sql: true
+        use_sql_comments: false
+        hbm2ddl:
+          auto: update
+        jdbc:
+          time_zone: Asia/Seoul
+        cache:
+          use_query_cache: false
+          use_second_level_cache: true
+          factory_class: org.redisson.hibernate.RedissonRegionFactory
+          redisson:
+            config: redission/redisson-${spring.profiles.active}.yml
+  datasource:
+    hikari:
+      driver-class-name: org.h2.Driver
+      connection-test-query: SELECT 1
+      connection-timeout: 3000    # maximum number of milliseconds that a client will wait for a connection
+      minimum-idle: 1             # minimum number of idle connections maintained by HikariCP in a connection pool
+      maximum-pool-size: 3        # maximum pool size
+      idle-timeout: 10000         # maximum idle time for connection
+      max-lifetime: 30000         # maximum lifetime in milliseconds of a connection in the pool after it is closed.
+      manage:
+        pool-name: CP-MANAGE
+        driver-class-name: ${spring.datasource.hikari.driver-class-name}
+        username: ${spring.datasource.hikari.username}
+        password: ${spring.datasource.hikari.password}
+        connection-test-query: ${spring.datasource.hikari.connection-test-query}
+        connection-timeout: ${spring.datasource.hikari.connection-timeout}
+        minimum-idle: ${spring.datasource.hikari.minimum-idle}
+        maximum-pool-size: ${spring.datasource.hikari.maximum-pool-size}
+        idle-timeout: ${spring.datasource.hikari.idle-timeout}
+        max-lifetime: ${spring.datasource.hikari.max-lifetime}
+      service-1:
+        pool-name: CP-SERVICE-1
+        driver-class-name: ${spring.datasource.hikari.driver-class-name}
+        username: ${spring.datasource.hikari.username}
+        password: ${spring.datasource.hikari.password}
+        connection-test-query: ${spring.datasource.hikari.connection-test-query}
+        connection-timeout: ${spring.datasource.hikari.connection-timeout}
+        minimum-idle: ${spring.datasource.hikari.minimum-idle}
+        maximum-pool-size: ${spring.datasource.hikari.maximum-pool-size}
+        idle-timeout: ${spring.datasource.hikari.idle-timeout}
+        max-lifetime: ${spring.datasource.hikari.max-lifetime}
+      service-2:
+        pool-name: CP-SERVICE-2
+        driver-class-name: ${spring.datasource.hikari.driver-class-name}
+        username: ${spring.datasource.hikari.username}
+        password: ${spring.datasource.hikari.password}
+        connection-test-query: ${spring.datasource.hikari.connection-test-query}
+        connection-timeout: ${spring.datasource.hikari.connection-timeout}
+        minimum-idle: ${spring.datasource.hikari.minimum-idle}
+        maximum-pool-size: ${spring.datasource.hikari.maximum-pool-size}
+        idle-timeout: ${spring.datasource.hikari.idle-timeout}
+        max-lifetime: ${spring.datasource.hikari.max-lifetime}
+  data:
+    web:
+#      sort:
+#        sort-parameter: sort
+      pageable:
+        default-page-size: 20
+        max-page-size: 2000
+        one-indexed-parameters: true
+#        page-parameter: page
+#        size-parameter: size
+  devtools:
+    restart:
+      enabled: false
+  redis:
+    lettuce:
+      pool:
+        max-active: 3
+        max-idle: 1
+        max-wait: 2000ms
+        min-idle: 1
+        time-between-eviction-runs: 10000ms
+  h2:
+    console:
+      enabled: true
+      path: /h2
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    session:
+      cookie:
+        path: /
+        secure: true
+        http-only: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+springdoc:
+  api-docs:
+    resolve-schema-properties: true
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /api.html
+
+app:
+  port:
+#   cloud-config:   9001
+    cloud-eureka:   9002
+    cloud-gateway:  8000
+    svc-task:       8001
+  path:
+#   cloud-config:   /
+    cloud-eureka:   /
+    cloud-gateway:  /
+    svc-task:       /task
+  transaction:
+    timeout: 5
+  file:
+    upload:
+      subdir-format: 'yyyy/MM'
+      file-name-format: 'dd-HHmm-ssSSS'
+      accept-extensions: ',zip,pdf,rtf,doc,docx,xls,xlsx,ppt,pptx,txt,yaml,yml,jpg,png,'
+      deny-extensions: ',exe,bat,cmd,sh,jar,NONE,'

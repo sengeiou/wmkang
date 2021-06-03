@@ -1,0 +1,48 @@
+
+spring:
+  datasource:
+    hikari:
+      username: sa
+      password: 
+      manage:
+        jdbc-url: jdbc:h2:file:./h2/manage
+      service-1:
+        jdbc-url: jdbc:h2:file:./h2/service1
+      service-2:
+        jdbc-url: jdbc:h2:file:./h2/service2
+  redis:
+    host: redis
+    port: 6379
+#    password: passwd
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update        # validate|update|create|create-drop|none
+  devtools:
+    restart:
+      enabled: false
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://cloud-eureka:${app.port.cloud-eureka}/eureka/
+
+app:
+  log-base-path: ./logs
+  file:
+    upload:
+      base-path: ./upload
+  audit:
+    enable: true
+  debug:
+    api:
+      expose-error-message: true
+    log:
+      beans:
+        switch: OFF
+        type: OBJECT
+      classpath: OFF
+      parameters:
+        http: ON
+        controller: ON
